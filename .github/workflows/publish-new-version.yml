@@ -19,7 +19,7 @@ jobs:
           major=$(echo $VERSION | cut -d'.' -f1)
           minor=$(echo $VERSION | cut -d'.' -f2)
           fix=$(echo $VERSION | cut -d'.' -f3)
-          echo "version=$major.$minor.$(($fix + 1))" >> $GITHUB_OUTPUT
+          echo "version=$major.$minor.$(($fix + 1))" >> "$GITHUB_OUTPUT"
 
       - name: Print version
         run: |
