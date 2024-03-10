@@ -1,0 +1,8 @@
+framework module inAppReviewKMP {
+    umbrella header "inAppReviewKMP.h"
+
+    export *
+    module * { export * }
+
+    use Foundation
+}
