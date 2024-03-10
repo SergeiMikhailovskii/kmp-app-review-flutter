@@ -14,19 +14,21 @@ jobs:
           fetch-depth: 0
 
       - name: Set version
+        id: version
         run: |
           VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
           major=$(echo $VERSION | cut -d'.' -f1)
           minor=$(echo $VERSION | cut -d'.' -f2)
           fix=$(echo $VERSION | cut -d'.' -f3)
-          echo "version=$major.$minor.$(($fix + 1))" >> "$GITHUB_ENV"
+          version=$major.$minor.$(($fix + 1))
+          echo "::set-output name=version::$version"
 
       - name: Update version
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'pubspec.yaml'
           propertyPath: 'version'
-          value: ${{ version }}
+          value: ${{ steps.image.outputs.version }}
           commitChange: false
 
       - name: Print yaml content
