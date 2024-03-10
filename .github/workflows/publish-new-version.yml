@@ -1,0 +1,46 @@
+name: Publish new version
+on:
+  pull_request:
+    branches:
+      - 'master'
+jobs:
+  build_project:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-tags: true
+          fetch-depth: 0
+
+      - name: Set version
+        run: |
+          VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
+          major=$(echo $VERSION | cut -d'.' -f1)
+          minor=$(echo $VERSION | cut -d'.' -f2)
+          fix=$(echo $VERSION | cut -d'.' -f3)
+          echo "version=$major.$minor.$(($fix + 1))" >> $GITHUB_OUTPUT
+
+      - name: Update version
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'pubspec.yaml'
+          propertyPath: 'version'
+          value: ${{ steps.vars.outputs.version }}
+          commitChange: false
+
+      - name: Print yaml content
+        run: |
+          echo cat pubspec.yaml
+
+#      - name: Create tag
+#        uses: actions/github-script@v7.0.1
+#        with:
+#          github-token: ${{ env.GITHUB_API_KEY }}
+#          script: |
+#            github.rest.git.createRef({
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              ref: 'refs/tags/${{ env.LIBRARY_VERSION }}',
+#              sha: context.sha
+#            })
