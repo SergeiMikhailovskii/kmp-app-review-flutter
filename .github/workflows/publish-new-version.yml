@@ -19,18 +19,18 @@ jobs:
           major=$(echo $VERSION | cut -d'.' -f1)
           minor=$(echo $VERSION | cut -d'.' -f2)
           fix=$(echo $VERSION | cut -d'.' -f3)
-          echo "version=$major.$minor.$(($fix + 1))" >> "$GITHUB_OUTPUT"
+          echo "version=$major.$minor.$(($fix + 1))" >> "$GITHUB_ENV"
 
       - name: Print version
         run: |
-          echo ${{ steps.env-setup.outputs.version }}
+          echo $version
 
       - name: Update version
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'pubspec.yaml'
           propertyPath: 'version'
-          value: ${{ steps.env-setup.outputs.version }}
+          value: $version
           commitChange: false
 
       - name: Print yaml content
