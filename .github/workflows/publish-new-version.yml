@@ -20,6 +20,7 @@ jobs:
           minor=$(echo $VERSION | cut -d'.' -f2)
           fix=$(echo $VERSION | cut -d'.' -f3)
           echo "version=$major.$minor.$(($fix + 1))" >> $GITHUB_OUTPUT
+          echo "$major.$minor.$(($fix + 1))"
 
       - name: Update version
         uses: fjogeleit/yaml-update-action@main
