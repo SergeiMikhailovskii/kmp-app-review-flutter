@@ -23,14 +23,14 @@ jobs:
 
       - name: Print version
         run: |
-          echo ${{ steps.vars.outputs.version }}
+          echo ${{ steps.env-setup.outputs.version }}
 
       - name: Update version
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'pubspec.yaml'
           propertyPath: 'version'
-          value: ${{ steps.vars.outputs.version }}
+          value: ${{ steps.env-setup.outputs.version }}
           commitChange: false
 
       - name: Print yaml content
