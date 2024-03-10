@@ -30,7 +30,7 @@ jobs:
         with:
           valueFile: 'pubspec.yaml'
           propertyPath: 'version'
-          value: $version
+          value: $(echo version)
           commitChange: false
 
       - name: Print yaml content
