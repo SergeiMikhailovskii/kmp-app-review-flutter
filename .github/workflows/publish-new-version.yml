@@ -39,7 +39,7 @@ jobs:
         run: flutter pub get
 
       - name: Publish package
-        uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+        run: dart pub publish --force
 
       - name: Create tag
         uses: actions/github-script@v7.0.1
