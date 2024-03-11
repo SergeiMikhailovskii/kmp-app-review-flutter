@@ -32,7 +32,7 @@ jobs:
           commitChange: false
 
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
 
       - name: Publish package
         run: dart pub publish --force
