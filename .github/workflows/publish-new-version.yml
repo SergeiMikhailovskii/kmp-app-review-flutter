@@ -7,6 +7,7 @@ jobs:
   build_project:
     runs-on: macos-latest
     steps:
+      - uses: dart-lang/setup-dart@v1.6.2
       - name: Checkout
         uses: actions/checkout@v4.1.1
         with:
@@ -30,18 +31,20 @@ jobs:
           value: ${{ steps.version.outputs.version }}
           commitChange: false
 
-      - name: Print yaml content
-        run: |
-          cat pubspec.yaml
+      - name: Install dependencies
+        run: dart pub get
 
-#      - name: Create tag
-#        uses: actions/github-script@v7.0.1
-#        with:
-#          github-token: ${{ env.GITHUB_API_KEY }}
-#          script: |
-#            github.rest.git.createRef({
-#              owner: context.repo.owner,
-#              repo: context.repo.repo,
-#              ref: 'refs/tags/${{ env.LIBRARY_VERSION }}',
-#              sha: context.sha
-#            })
+      - name: Publish package
+        run: dart pub publish --force
+
+      - name: Create tag
+        uses: actions/github-script@v7.0.1
+        with:
+          github-token: ${{ env.GITHUB_API_KEY }}
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ steps.version.outputs.version }}',
+              sha: context.sha
+            })
