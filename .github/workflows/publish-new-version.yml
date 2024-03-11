@@ -5,6 +5,8 @@ on:
       - 'master'
 jobs:
   build_project:
+    permissions:
+      id-token: write
     runs-on: macos-latest
     steps:
       - uses: dart-lang/setup-dart@v1.6.2
@@ -37,7 +39,7 @@ jobs:
         run: flutter pub get
 
       - name: Publish package
-        run: dart pub publish --force
+        uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
 
       - name: Create tag
         uses: actions/github-script@v7.0.1
