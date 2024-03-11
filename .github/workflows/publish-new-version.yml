@@ -8,6 +8,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: dart-lang/setup-dart@v1.6.2
+      - uses: subosito/flutter-action@v2.13.0
+
       - name: Checkout
         uses: actions/checkout@v4.1.1
         with:
