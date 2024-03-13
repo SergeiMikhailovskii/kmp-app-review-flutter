@@ -21,7 +21,7 @@ jobs:
       - name: Set version
         id: version
         run: |
-          VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
+          VERSION=$(git describe --tags `git rev-list --tags --max-count=1` | cut -c 2-)
           major=$(echo $VERSION | cut -d'.' -f1)
           minor=$(echo $VERSION | cut -d'.' -f2)
           fix=$(echo $VERSION | cut -d'.' -f3)
